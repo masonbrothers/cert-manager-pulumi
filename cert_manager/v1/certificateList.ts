@@ -7,93 +7,99 @@ import * as outputs from "../../types/output";
 import * as utilities from "../../utilities";
 
 /**
- * Challenge is a type to represent a Challenge request with an ACME server
+ * CertificateList is a list of Certificate
  */
-export class Challenge extends pulumi.CustomResource {
+export class CertificateList extends pulumi.CustomResource {
     /**
-     * Get an existing Challenge resource's state with the given name, ID, and optional extra
+     * Get an existing CertificateList resource's state with the given name, ID, and optional extra
      * properties used to qualify the lookup.
      *
      * @param name The _unique_ name of the resulting resource.
      * @param id The _unique_ provider ID of the resource to lookup.
      * @param opts Optional settings to control the behavior of the CustomResource.
      */
-    public static get(name: string, id: pulumi.Input<pulumi.ID>, opts?: pulumi.CustomResourceOptions): Challenge {
-        return new Challenge(name, undefined as any, { ...opts, id: id });
+    public static get(name: string, id: pulumi.Input<pulumi.ID>, opts?: pulumi.CustomResourceOptions): CertificateList {
+        return new CertificateList(name, undefined as any, { ...opts, id: id });
     }
 
     /** @internal */
-    public static readonly __pulumiType = 'kubernetes:acme.cert-manager.io/v1:Challenge';
+    public static readonly __pulumiType = 'kubernetes:cert-manager.io/v1:CertificateList';
 
     /**
-     * Returns true if the given object is an instance of Challenge.  This is designed to work even
+     * Returns true if the given object is an instance of CertificateList.  This is designed to work even
      * when multiple copies of the Pulumi SDK have been loaded into the same process.
      */
-    public static isInstance(obj: any): obj is Challenge {
+    public static isInstance(obj: any): obj is CertificateList {
         if (obj === undefined || obj === null) {
             return false;
         }
-        return obj['__pulumiType'] === Challenge.__pulumiType;
+        return obj['__pulumiType'] === CertificateList.__pulumiType;
     }
 
     /**
      * APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
      */
-    declare public readonly apiVersion: pulumi.Output<"acme.cert-manager.io/v1">;
+    declare public readonly apiVersion: pulumi.Output<"cert-manager.io/v1">;
+    /**
+     * List of certificates. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md
+     */
+    declare public readonly items: pulumi.Output<outputs.cert_manager.v1.Certificate[]>;
     /**
      * Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
      */
-    declare public readonly kind: pulumi.Output<"Challenge">;
+    declare public readonly kind: pulumi.Output<"CertificateList">;
     /**
-     * Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+     * Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
      */
-    declare public readonly metadata: pulumi.Output<outputs.meta.v1.ObjectMeta>;
-    declare public readonly spec: pulumi.Output<outputs.acme.v1.ChallengeSpec>;
-    declare public /*out*/ readonly status: pulumi.Output<outputs.acme.v1.ChallengeStatus>;
+    declare public readonly metadata: pulumi.Output<outputs.meta.v1.ListMeta>;
 
     /**
-     * Create a Challenge resource with the given unique name, arguments, and options.
+     * Create a CertificateList resource with the given unique name, arguments, and options.
      *
      * @param name The _unique_ name of the resource.
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args?: ChallengeArgs, opts?: pulumi.CustomResourceOptions) {
+    constructor(name: string, args?: CertificateListArgs, opts?: pulumi.CustomResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            resourceInputs["apiVersion"] = "acme.cert-manager.io/v1";
-            resourceInputs["kind"] = "Challenge";
+            if (args?.items === undefined && !opts.urn) {
+                throw new Error("Missing required property 'items'");
+            }
+            resourceInputs["apiVersion"] = "cert-manager.io/v1";
+            resourceInputs["items"] = args?.items;
+            resourceInputs["kind"] = "CertificateList";
             resourceInputs["metadata"] = args?.metadata;
-            resourceInputs["spec"] = args?.spec;
-            resourceInputs["status"] = undefined /*out*/;
         } else {
             resourceInputs["apiVersion"] = undefined /*out*/;
+            resourceInputs["items"] = undefined /*out*/;
             resourceInputs["kind"] = undefined /*out*/;
             resourceInputs["metadata"] = undefined /*out*/;
-            resourceInputs["spec"] = undefined /*out*/;
-            resourceInputs["status"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
-        super(Challenge.__pulumiType, name, resourceInputs, opts);
+        super(CertificateList.__pulumiType, name, resourceInputs, opts);
     }
 }
 
 /**
- * The set of arguments for constructing a Challenge resource.
+ * The set of arguments for constructing a CertificateList resource.
  */
-export interface ChallengeArgs {
+export interface CertificateListArgs {
     /**
      * APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
      */
-    apiVersion?: pulumi.Input<"acme.cert-manager.io/v1" | undefined>;
+    apiVersion?: pulumi.Input<"cert-manager.io/v1" | undefined>;
+    /**
+     * List of certificates. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md
+     */
+    items: pulumi.Input<pulumi.Input<inputs.cert_manager.v1.Certificate>[]>;
     /**
      * Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
      */
-    kind?: pulumi.Input<"Challenge" | undefined>;
+    kind?: pulumi.Input<"CertificateList" | undefined>;
     /**
-     * Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+     * Standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
      */
-    metadata?: pulumi.Input<inputs.meta.v1.ObjectMeta | undefined>;
-    spec?: pulumi.Input<inputs.acme.v1.ChallengeSpec | undefined>;
+    metadata?: pulumi.Input<inputs.meta.v1.ListMeta | undefined>;
 }

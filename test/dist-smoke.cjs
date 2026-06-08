@@ -16,7 +16,7 @@ pulumi.runtime.setMocks(
 );
 
 async function main() {
-  const certificate = new certmanager.certmanager.v1.Certificate("tls", {
+  const certificate = new certmanager.cert_manager.v1.Certificate("tls", {
     metadata: { name: "tls" },
     spec: {
       dnsNames: ["example.com"],
@@ -28,7 +28,7 @@ async function main() {
     },
   });
 
-  assert.equal(certmanager.certmanager.v1.Certificate.isInstance(certificate), true);
+  assert.equal(certmanager.cert_manager.v1.Certificate.isInstance(certificate), true);
   assert.equal(await certificate.apiVersion.promise(), "cert-manager.io/v1");
   assert.equal(await certificate.kind.promise(), "Certificate");
 }

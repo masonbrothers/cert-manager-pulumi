@@ -15,9 +15,9 @@ npm install cert-manager-pulumi @pulumi/kubernetes @pulumi/pulumi
 ## Example
 
 ```ts
-import { certmanager } from "cert-manager-pulumi";
+import { cert_manager } from "cert-manager-pulumi";
 
-new certmanager.v1.ClusterIssuer("selfsigned", {
+new cert_manager.v1.ClusterIssuer("selfsigned", {
   metadata: {
     name: "selfsigned",
   },

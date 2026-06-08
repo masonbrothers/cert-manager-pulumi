@@ -6,8 +6,6 @@ import * as inputs from "../../types/input";
 import * as outputs from "../../types/output";
 import * as utilities from "../../utilities";
 
-import {ObjectMeta} from "../../meta/v1";
-
 /**
  * An Issuer represents a certificate issuing authority which can be
  * referenced as part of `issuerRef` fields.
@@ -41,17 +39,20 @@ export class Issuer extends pulumi.CustomResource {
         return obj['__pulumiType'] === Issuer.__pulumiType;
     }
 
-    public readonly apiVersion!: pulumi.Output<"cert-manager.io/v1" | undefined>;
-    public readonly kind!: pulumi.Output<"Issuer" | undefined>;
-    public readonly metadata!: pulumi.Output<ObjectMeta | undefined>;
     /**
-     * Desired state of the Issuer resource.
+     * APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
      */
-    public readonly spec!: pulumi.Output<outputs.certmanager.v1.IssuerSpec>;
+    declare public readonly apiVersion: pulumi.Output<"cert-manager.io/v1">;
     /**
-     * Status of the Issuer. This is set and managed automatically.
+     * Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
      */
-    public readonly status!: pulumi.Output<outputs.certmanager.v1.IssuerStatus | undefined>;
+    declare public readonly kind: pulumi.Output<"Issuer">;
+    /**
+     * Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+     */
+    declare public readonly metadata: pulumi.Output<outputs.meta.v1.ObjectMeta>;
+    declare public readonly spec: pulumi.Output<outputs.cert_manager.v1.IssuerSpec>;
+    declare public /*out*/ readonly status: pulumi.Output<outputs.cert_manager.v1.IssuerStatus>;
 
     /**
      * Create a Issuer resource with the given unique name, arguments, and options.
@@ -66,9 +67,9 @@ export class Issuer extends pulumi.CustomResource {
         if (!opts.id) {
             resourceInputs["apiVersion"] = "cert-manager.io/v1";
             resourceInputs["kind"] = "Issuer";
-            resourceInputs["metadata"] = args ? args.metadata : undefined;
-            resourceInputs["spec"] = args ? args.spec : undefined;
-            resourceInputs["status"] = args ? args.status : undefined;
+            resourceInputs["metadata"] = args?.metadata;
+            resourceInputs["spec"] = args?.spec;
+            resourceInputs["status"] = undefined /*out*/;
         } else {
             resourceInputs["apiVersion"] = undefined /*out*/;
             resourceInputs["kind"] = undefined /*out*/;
@@ -85,15 +86,17 @@ export class Issuer extends pulumi.CustomResource {
  * The set of arguments for constructing a Issuer resource.
  */
 export interface IssuerArgs {
-    apiVersion?: pulumi.Input<"cert-manager.io/v1">;
-    kind?: pulumi.Input<"Issuer">;
-    metadata?: pulumi.Input<ObjectMeta>;
     /**
-     * Desired state of the Issuer resource.
+     * APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
      */
-    spec?: pulumi.Input<inputs.certmanager.v1.IssuerSpecArgs>;
+    apiVersion?: pulumi.Input<"cert-manager.io/v1" | undefined>;
     /**
-     * Status of the Issuer. This is set and managed automatically.
+     * Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
      */
-    status?: pulumi.Input<inputs.certmanager.v1.IssuerStatusArgs>;
+    kind?: pulumi.Input<"Issuer" | undefined>;
+    /**
+     * Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+     */
+    metadata?: pulumi.Input<inputs.meta.v1.ObjectMeta | undefined>;
+    spec?: pulumi.Input<inputs.cert_manager.v1.IssuerSpec | undefined>;
 }

@@ -1,5 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
-import { Certificate } from "../certmanager/v1/certificate";
+import { Certificate } from "../cert_manager/v1/certificate";
 import { describe, expect, it } from "vitest";
 
 pulumi.runtime.setMocks(
