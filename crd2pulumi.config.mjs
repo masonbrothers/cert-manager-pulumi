@@ -1,7 +1,7 @@
 export default {
   cleanEntries: [
     "acme",
-    "certmanager",
+    "cert_manager",
   ],
   sources: [
     {
